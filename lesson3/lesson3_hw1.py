@@ -1,19 +1,28 @@
 def my_division(num1, num2):
+    """
+    :param num1: первое число, тип данных - float
+    :param num2: второе число, тип данных - float
+    :return: результат деления первого числа на второе. Если num2 = 0, то выводится строка что на ноль делить нельзя
+    и возвращается None
+    """
     try:
         return num1 / num2
     except ZeroDivisionError:
         print("На ноль делить нельзя!")
+        raise ZeroDivisionError
 
 
 def is_digit(string):
-    if string.isdigit():
+    """
+    проверят является ли строка числом
+    :param string: строка, которую необходимо проверить
+    :return: True, если строка является числом, False иначе
+    """
+    try:
+        float(string)
         return True
-    else:
-        try:
-            float(string)
-            return True
-        except ValueError:
-            return False
+    except ValueError:
+        return False
 
 
 num1 = ''
