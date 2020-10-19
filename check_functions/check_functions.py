@@ -7,5 +7,6 @@ def is_float(string):
     try:
         float(string)
         return True
-    except ValueError:
+    except ValueError as err:
+        print(f"Ошибка, переданное значение {string} не является вещественным числом. \nПодробнее: {err}")
         return False
