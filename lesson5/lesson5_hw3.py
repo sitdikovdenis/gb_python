@@ -10,10 +10,11 @@ from check_functions.check_functions import is_float
     Информация о сотрудниках хранится в csv файле, разделитель " "
 """
 
+
 def employee_check(employee_info):
     try:
-        employee_surname = employee.split()[0]
-        employee_salary = employee.split()[1]
+        employee_surname = employee_info.split()[0]
+        employee_salary = employee_info.split()[1]
         return is_float(employee_salary)
     except IndexError as ind_err:
         print(f"Ошибка в формате файла, не указаны имя или фамилия.\n Подробнее: {ind_err}")
@@ -25,7 +26,6 @@ emp_count = 0
 salary_sum = 0
 
 with open("l5_hw3.txt", 'r', encoding="utf-8") as employees:
-    trainees = []
     for employee in employees:
         if employee_check(employee):
             employee_surname = employee.split()[0]
