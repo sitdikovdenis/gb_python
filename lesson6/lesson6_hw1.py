@@ -12,15 +12,24 @@ import time
 from termcolor import colored
 
 class TrafficLight():
-
+    # время работы каждого цвета
     time_of_work = {"red": 7, "yellow": 2, "green": 6}
-
     __color = "red"
+    __current_color = __color
+
+    correct_color_order = ["red", "yellow", "green"]
+
+    def check_color_correct_order(self, old_color, current_color):
+        print(self.correct_color_order.index(current_color) - self.correct_color_order.index(old_color))
+        if self.correct_color_order.index(current_color) - self.correct_color_order.index(old_color) != 1 :
+            raise Exception("Нарушен порядок светофора")
 
     def running(self, color):
-        print(colored("⚫", color))
-        self.__color = color
-        time.sleep(self.time_of_work[color])
+        if self.check_color_correct_order(old_color=self.__current_color, current_color=color):
+            print(colored("⚫", color))
+            self.__color = color
+            self.__current_color = color
+            time.sleep(self.time_of_work[color])
 
 colors = ["red", "yellow", "green"]
 
