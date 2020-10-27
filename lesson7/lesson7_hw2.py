@@ -9,3 +9,32 @@
 Реализовать общий подсчет расхода ткани. Проверить на практике полученные на этом уроке знания:
 реализовать абстрактные классы для основных классов проекта, проверить на практике работу декоратора @property.
 """
+from abc import ABC, abstractmethod
+
+
+class Clothes(ABC):
+    @abstractmethod
+    def get_tissue_consumption(self):
+        pass
+
+
+class Coat(Clothes):
+    def __init__(self, V):
+        self.V = V
+
+    def get_tissue_consumption(self):
+        return self.V / 6.5 + 0.5
+
+
+class Suit(Clothes):
+    def __init__(self, H):
+        self.H = H
+
+    @property
+    def get_tissue_consumption(self):
+        return 2 * self.H + 0.3
+
+
+suit = Suit(H=2)
+print(suit.get_tissue_consumption)
+print(suit.get_tissue_consumption)
