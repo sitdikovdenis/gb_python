@@ -26,6 +26,8 @@ class Coat(Clothes):
         return self.V / 6.5 + 0.5
 
 
+
+
 class Suit(Clothes):
     def __init__(self, H):
         self.H = H
@@ -34,7 +36,16 @@ class Suit(Clothes):
     def get_tissue_consumption(self):
         return 2 * self.H + 0.3
 
+    @staticmethod
+    def get_total_tissue_consumption(*args):
+        total_tissue_consumption = 0
+        for suit in args:
+            total_tissue_consumption += suit.get_tissue_consumption
+        return total_tissue_consumption
 
 suit = Suit(H=2)
+suit2 = Suit(H=5)
 print(suit.get_tissue_consumption)
-print(suit.get_tissue_consumption)
+print(suit2.get_tissue_consumption)
+
+print(Suit.get_total_tissue_consumption(suit, suit2))
