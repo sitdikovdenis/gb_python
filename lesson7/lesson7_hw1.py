@@ -52,7 +52,7 @@ class Matrix:
 
 
 list1 = [[1, 1, 1], [2, 2, 2]]
-list2 = [[4, 4, 4], [5, 5, 5]]
+list2 = [[4, 4, 4], [5, 5, 50], [5, 5, 50]]
 
 m1 = Matrix(list1)
 print(m1)
