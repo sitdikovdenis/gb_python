@@ -48,4 +48,4 @@ suit2 = Suit(H=5)
 print(suit.get_tissue_consumption)
 print(suit2.get_tissue_consumption)
 
-print(Suit.get_total_tissue_consumption(suit, suit2))
+print(Clothes.get_total_tissue_consumption(suit, suit2))
