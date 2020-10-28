@@ -17,6 +17,13 @@ class Clothes(ABC):
     def get_tissue_consumption(self):
         pass
 
+    @staticmethod
+    def get_total_tissue_consumption(*args):
+        total_tissue_consumption = 0
+        for suit in args:
+            total_tissue_consumption += suit.get_tissue_consumption
+        return total_tissue_consumption
+
 
 class Coat(Clothes):
     def __init__(self, V):
@@ -24,8 +31,6 @@ class Coat(Clothes):
 
     def get_tissue_consumption(self):
         return self.V / 6.5 + 0.5
-
-
 
 
 class Suit(Clothes):
@@ -36,12 +41,7 @@ class Suit(Clothes):
     def get_tissue_consumption(self):
         return 2 * self.H + 0.3
 
-    @staticmethod
-    def get_total_tissue_consumption(*args):
-        total_tissue_consumption = 0
-        for suit in args:
-            total_tissue_consumption += suit.get_tissue_consumption
-        return total_tissue_consumption
+
 
 suit = Suit(H=2)
 suit2 = Suit(H=5)
