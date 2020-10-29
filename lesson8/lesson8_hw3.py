@@ -16,11 +16,10 @@ list_item = ""
 while list_item != "q":
     list_item = input("Введите значение для списка. Для прекращения введите символ 'q':")
     if list_item != 'q':
-        my_list.append(list_item)
-
-try:
-    for elem in my_list:
-        if not elem.isdigit():
-            raise NotDigitException(elem)
-except NotDigitException:
-    pass
+        try:
+            if not list_item.isdigit():
+                raise NotDigitException(list_item)
+            else:
+                my_list.append(list_item)
+        except NotDigitException:
+            pass
