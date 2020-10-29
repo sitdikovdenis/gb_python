@@ -9,11 +9,18 @@ class SuperPuperZeroDivisionError(ZeroDivisionError):
     def __init__(self):
         print("На но(у)ль делить нельзя!!!!")
 
+def check_denominator(num):
+    if denominator == 0:
+        raise SuperPuperZeroDivisionError
 
 numerator = 100
 
 denominator = input(f"Введите число, на которое мы разделим {numerator}: ")
-if denominator == '0':
-    raise SuperPuperZeroDivisionError
+denominator = int(denominator)
 
-print(numerator/int(denominator))
+
+try:
+    check_denominator(denominator)
+    print(numerator/denominator)
+except SuperPuperZeroDivisionError:
+    pass
