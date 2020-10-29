@@ -4,6 +4,7 @@
 ситуацию и не завершиться с ошибкой.
 """
 
+
 class SuperPuperZeroDivisionError(ZeroDivisionError):
     def __init__(self):
         print("На но(у)ль делить нельзя!!!!")
