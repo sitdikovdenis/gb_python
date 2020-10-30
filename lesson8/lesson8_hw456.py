@@ -36,7 +36,6 @@ class Warehouse:
         if not str(count).isdigit:
             raise Exception("Для выдачи товара введите целое число")
 
-
     # прием техники
     @classmethod
     def technique_reception(cls, equipment, equipment_count):
