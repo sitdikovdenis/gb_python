@@ -1,0 +1,113 @@
+"""
+4. Начните работу над проектом «Склад оргтехники». Создайте класс, описывающий склад. А также класс «Оргтехника»,
+который будет базовым для классов-наследников. Эти классы — конкретные типы оргтехники (принтер, сканер, ксерокс).
+В базовом классе определить параметры, общие для приведенных типов. В классах-наследниках реализовать параметры,
+уникальные для каждого типа оргтехники.
+"""
+
+"""
+5. Продолжить работу над первым заданием. Разработать методы, отвечающие за приём оргтехники на склад и передачу 
+в определенное подразделение компании. Для хранения данных о наименовании и количестве единиц оргтехники, а также других 
+данных, можно использовать любую подходящую структуру, например словарь"""
+
+# class MC:
+#     def __init__(self, name):
+#         self.name = name
+#
+# mc = MC("saas")
+# print(mc.__class__.__name__)
+
+
+# equipments = {"aaa": "dsafdsf"}
+#
+# # прием техники
+# def technique_reception(equipment):
+#     equipment_name = equipment
+#     table = equipments.get(equipment_name)
+#     table = table if table is not None else dict()
+#     print(table)
+#
+#
+# technique_reception("aaa")
+
+
+from abc import ABC, abstractmethod
+
+
+class WarehouseIsEmpty(IndexError):
+    def __init__(self, name):
+        print(f"На складе недостаточно товара {name}")
+
+
+class Warehouse:
+    def __init__(self, square):
+        self.square = square
+        # equipments - аналог БД, каждый ключ словаря = имя таблицы в значении еще один словарь со столбцами
+        Warehouse.equipments = dict()
+
+    # прием техники
+    def technique_reception(self, equipment, equipment_count):
+        equipment_name = equipment.__class__.__name__
+        table = Warehouse.equipments.get(equipment_name)
+        table = table if table is not None else dict()
+        t_equipment_count = table.get('equipment_count_on_warehouse')
+        t_equipment_count = t_equipment_count if t_equipment_count is not None else 0
+        t_equipment_count += equipment_count
+        table.update({'equipment_count_on_warehouse': t_equipment_count})
+        Warehouse.equipments.update({equipment_name: table})
+
+    # выдача техники
+    def issue_of_equipment(self, equipment, equipment_count, sub_div):
+        equipment_name = equipment.__class__.__name__
+        table = Warehouse.equipments.get(equipment_name)
+        if table is None:
+            raise WarehouseIsEmpty(equipment_name)
+        t_equipment_count = table.get('equipment_count_on_warehouse')
+        if t_equipment_count is None or t_equipment_count == 0:
+            raise WarehouseIsEmpty(equipment_name)
+        if t_equipment_count is None or t_equipment_count == 0 or t_equipment_count < equipment_count:
+            raise WarehouseIsEmpty(equipment_name)
+
+        t_equipment_count -= equipment_count
+        # todo в будущем БД надо сделать посерьезнее и вынести location отдельным полем
+        table.update({f'equipment_count_on_{sub_div}': equipment_count})
+        table.update({'equipment_count_on_warehouse': t_equipment_count})
+        Warehouse.equipments.update({equipment_name: table})
+
+    def print_equipments(self):
+        print(Warehouse.equipments)
+
+
+# class OfficeEquipment(ABC):
+#     @abstractmethod
+#     def get_location(self):
+#         pass
+#
+#     @abstractmethod
+#     def get_count(self):
+#         pass
+
+
+class OfficeEquipment(ABC):
+    pass
+
+
+class Equipment:
+    pass
+
+
+oe = OfficeEquipment()
+wh = Warehouse(123)
+
+wh.technique_reception(oe, 4)
+wh.technique_reception(oe, 3)
+# wh.print_equipments()
+
+e = Equipment()
+
+wh.technique_reception(e, 4)
+wh.technique_reception(e, 1)
+wh.print_equipments()
+
+wh.issue_of_equipment(e, 4, "it")
+wh.print_equipments()
