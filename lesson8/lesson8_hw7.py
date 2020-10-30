@@ -15,7 +15,8 @@ class Complex:
     def __mul__(self, other):
         return Complex((self.r * other.r - self.i * other.i), (self.i * other.r + self.r * other.i))
 
+
 c1 = Complex(1, -1)
 c2 = Complex(3, 6)
-c3 = c1*c2
+c3 = c1 * c2
 print(c3.r, c3.i)
