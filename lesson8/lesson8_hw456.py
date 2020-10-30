@@ -16,26 +16,6 @@
 Например, для указания количества принтеров, отправленных на склад, нельзя использовать строковый тип данных.
 """
 
-# class MC:
-#     def __init__(self, name):
-#         self.name = name
-#
-# mc = MC("saas")
-# print(mc.__class__.__name__)
-
-
-# equipments = {"aaa": "dsafdsf"}
-#
-# # прием техники
-# def technique_reception(equipment):
-#     equipment_name = equipment
-#     table = equipments.get(equipment_name)
-#     table = table if table is not None else dict()
-#     print(table)
-#
-#
-# technique_reception("aaa")
-
 
 from abc import ABC, abstractmethod
 
@@ -51,21 +31,31 @@ class Warehouse:
         # equipments - аналог БД, каждый ключ словаря = имя таблицы в значении еще один словарь со столбцами
         Warehouse.equipments = dict()
 
+    @staticmethod
+    def equipment_count_validation(count):
+        if not str(count).isdigit:
+            raise Exception("Для выдачи товара введите целое число")
+
+
     # прием техники
-    def technique_reception(self, equipment, equipment_count):
+    @classmethod
+    def technique_reception(cls, equipment, equipment_count):
+        cls.equipment_count_validation(equipment_count)
         equipment_name = equipment.__class__.__name__
-        table = Warehouse.equipments.get(equipment_name)
+        table = cls.equipments.get(equipment_name)
         table = table if table is not None else dict()
         t_equipment_count = table.get('equipment_count_on_warehouse')
         t_equipment_count = t_equipment_count if t_equipment_count is not None else 0
         t_equipment_count += equipment_count
         table.update({'equipment_count_on_warehouse': t_equipment_count})
-        Warehouse.equipments.update({equipment_name: table})
+        cls.equipments.update({equipment_name: table})
 
     # выдача техники
-    def issue_of_equipment(self, equipment, equipment_count, sub_div):
+    @classmethod
+    def issue_of_equipment(cls, equipment, equipment_count, sub_div):
+        cls.equipment_count_validation(equipment_count)
         equipment_name = equipment.__class__.__name__
-        table = Warehouse.equipments.get(equipment_name)
+        table = cls.equipments.get(equipment_name)
         if table is None:
             raise WarehouseIsEmpty(equipment_name)
         t_equipment_count = table.get('equipment_count_on_warehouse')
