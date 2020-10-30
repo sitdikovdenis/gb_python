@@ -10,6 +10,12 @@
 в определенное подразделение компании. Для хранения данных о наименовании и количестве единиц оргтехники, а также других 
 данных, можно использовать любую подходящую структуру, например словарь"""
 
+
+"""
+6. Продолжить работу над вторым заданием. Реализуйте механизм валидации вводимых пользователем данных. 
+Например, для указания количества принтеров, отправленных на склад, нельзя использовать строковый тип данных.
+"""
+
 # class MC:
 #     def __init__(self, name):
 #         self.name = name
@@ -78,36 +84,46 @@ class Warehouse:
         print(Warehouse.equipments)
 
 
-# class OfficeEquipment(ABC):
-#     @abstractmethod
-#     def get_location(self):
-#         pass
-#
-#     @abstractmethod
-#     def get_count(self):
-#         pass
-
-
 class OfficeEquipment(ABC):
-    pass
+    @staticmethod
+    def get_count(location, equipment_name):
+        table = Warehouse.equipments.get(equipment_name)
+        if table is None:
+            return 0
+        equipment_count = table.get(f'equipment_count_on_{location}')
+        if equipment_count is None:
+            return 0
+        return equipment_count
+
+    @abstractmethod
+    def get_equipment_info(self):
+        pass
 
 
-class Equipment:
-    pass
+class Printer(OfficeEquipment):
+    def get_equipment_info(self):
+        print("Это принтер")
 
 
-oe = OfficeEquipment()
+class Scaner(OfficeEquipment):
+    def get_equipment_info(self):
+        print("Это сканер")
+
+
+scaner = Scaner()
 wh = Warehouse(123)
 
-wh.technique_reception(oe, 4)
-wh.technique_reception(oe, 3)
-# wh.print_equipments()
+wh.technique_reception(scaner, 4)
+wh.technique_reception(scaner, 3)
 
-e = Equipment()
+printer = Printer()
 
-wh.technique_reception(e, 4)
-wh.technique_reception(e, 1)
+wh.technique_reception(printer, 4)
+wh.technique_reception(printer, 1)
 wh.print_equipments()
 
-wh.issue_of_equipment(e, 4, "it")
+wh.issue_of_equipment(printer, 4, "it")
 wh.print_equipments()
+
+printer_count_on_it = OfficeEquipment.get_count("it", "Printer")
+print(printer_count_on_it)
