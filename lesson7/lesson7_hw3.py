@@ -53,5 +53,5 @@ class Cell:
 
 
 cell1 = Cell(10)
-a = cell1.make_order(3)
+a = cell1.make_order(8)
 print(a)
